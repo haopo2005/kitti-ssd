@@ -1,3 +1,9 @@
+Tips:
+If your training images are uncommon, just forget about the VGG Net caffemodel.
+Run the train_ssd_kitti.py to generate files under jobs folder. 
+Modify these prototxts.
+And you can start from "./jobs/vggnetxx/kittixxx/ssdxxx/vgg_xxx.sh"
+
 ### SSD Train Own Data Tutorial
 
 > This tutorial written by Jin Tian, Master in Tsinghua University, if you have any question about this post, contact me via wechat: `jintianiloveu`. Repost is also welcomed, but please remain this copyright info, enjoy :)
