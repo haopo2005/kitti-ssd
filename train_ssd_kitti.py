@@ -1,6 +1,6 @@
 from __future__ import print_function
 import sys
-sys.path.insert(0, "/home/chenqi-didi/Documents/work/caffe/python")
+sys.path.insert(0, "/home/jst/share/project/ssd/caffe/python")
 import caffe
 from caffe.model_libs import *
 from google.protobuf import text_format
@@ -70,8 +70,8 @@ def add_extra_layers(net, use_batchnorm=True, lr_mult=1):
 
 # Modify the following parameters accordingly
 # change this individually
-data_root_dir = "/home/chenqi-didi/data/"
-caffe_root = "/home/chenqi-didi/Documents/work/caffe"
+data_root_dir = "/home/jst/share/project/kitti-ssd/data/"
+caffe_root = "/home/jst/share/project/ssd/caffe"
 
 current_dir = os.getcwd()
 
@@ -90,8 +90,8 @@ test_data = data_root_dir + "KITTI/lmdb/KITTI_test_lmdb"
 # Specify the batch sampler.
 # according your image width and height, change this
 # this influence accuracy of bbox
-resize_width = 414
-resize_height = 125
+resize_width = 160
+resize_height = 120
 resize = "{}x{}".format(resize_width, resize_height)
 batch_sampler = [
         {
@@ -263,18 +263,18 @@ snapshot_prefix = "{}/{}".format(snapshot_dir, model_name)
 job_file = "{}/{}.sh".format(job_dir, model_name)
 
 # Stores the test image names and sizes. Created by data/KITTI/create_list.sh
-name_size_file = "{}/data/test_name_size.txt".format(current_dir)
+name_size_file = "{}/data/KITTI/test_name_size.txt".format(current_dir)
 # The pretrained model. We use the Fully convolutional reduced (atrous) VGGNet.
 # pretrain_model = "models/VGGNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel"
 pretrain_model = "models/VGGNet/VGG16.v2.caffemodel"
 # Stores LabelMapItem.
-label_map_file = "{}/data/labelmap_kitti.prototxt".format(current_dir)
+label_map_file = "{}/data/KITTI/labelmap_kitti.prototxt".format(current_dir)
 
 # MultiBoxLoss parameters.
 # **This line should also changed into your dataset**
-num_classes = 10
+num_classes = 2
 share_location = True
-background_label_id = 9
+background_label_id = 1
 train_on_diff_gt = True
 normalization_mode = P.Loss.VALID
 code_type = P.PriorBox.CENTER_SIZE
@@ -312,7 +312,7 @@ min_dim = (resize_width * resize_height) ** 0.5
 # conv7_2 ==> 5 x 5
 # conv8_2 ==> 3 x 3
 # conv9_2 ==> 1 x 1
-mbox_source_layers = ['conv4_3', 'fc7_conv', 'conv6_2', 'conv7_2', 'conv8_2', 'pool6']
+mbox_source_layers = ['conv4_3', 'fc7', 'conv6_2', 'conv7_2', 'conv8_2', 'pool6']
 # in percent %
 min_ratio = 20
 max_ratio = 90
@@ -338,9 +338,10 @@ clip = False
 
 # Solver parameters.
 # Defining which GPUs to use.
-gpus = "0,1"
-gpulist = gpus.split(",")
-num_gpus = len(gpulist)
+#gpus = "0,1"
+#gpulist = gpus.split(",")
+#num_gpus = len(gpulist)
+num_gpus = 0
 
 # Divide the mini-batch to different GPUs.
 batch_size = 12
@@ -366,7 +367,7 @@ elif normalization_mode == P.Loss.FULL:
 
 # Evaluate on whole test set.
 # **Must change this line if you using another dataset!!**
-num_test_image = 1497
+num_test_image = 1122
 test_batch_size = 8
 # Ideally test_batch_size should be divisible by num_test_image,
 # otherwise mAP will be slightly off the true value.

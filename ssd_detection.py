@@ -6,7 +6,7 @@ plt.rcParams['image.interpolation'] = 'nearest'
 plt.rcParams['image.cmap'] = 'gray'
 
 # change this to your caffe root dir
-caffe_root = '/home/chenqi-didi/Documents/work/caffe'
+caffe_root = '/home/jst/share/project/ssd/caffe'
 import os
 import sys
 sys.path.insert(0, caffe_root + '/python')
@@ -15,12 +15,12 @@ import caffe
 from google.protobuf import text_format
 from caffe.proto import caffe_pb2
 import cv2
-caffe.set_device(0)
-caffe.set_mode_gpu()
-print('Check Caffe OK!')
+#caffe.set_device(0)
+#caffe.set_mode_gpu()
+#print('Check Caffe OK!')
 
 # load label map file
-labelmap_file = 'data/labelmap_kitti.prototxt'
+labelmap_file = 'labelmap_kitti.prototxt'
 file = open(labelmap_file, 'r')
 labelmap = caffe_pb2.LabelMap()
 a = text_format.Merge(str(file.read()), labelmap)
@@ -42,8 +42,8 @@ def get_labelname(labelmap, labels):
     return labelnames
 
 # load model deploy prototxt and caffemodel weights
-model_def = 'models/VGGNet/KITTI/SSD_414x125/deploy.prototxt'
-model_weights = 'models/VGGNet/KITTI/SSD_414x125/VGG_KITTI_SSD_414x125_iter_120000.caffemodel'
+model_def = 'deploy.prototxt'
+model_weights = 'VGG_KITTI_SSD_160x120_iter_120000.caffemodel'
 
 net = caffe.Net(model_def,     
                 model_weights,
@@ -56,11 +56,11 @@ transformer.set_mean('data', np.array([104, 117, 123]))
 transformer.set_raw_scale('data', 255)
 transformer.set_channel_swap('data', (2, 1, 0))
 
-image_resize_width = 414
-image_resize_height = 125
+image_resize_width = 160
+image_resize_height = 120
 net.blobs['data'].reshape(1, 3, image_resize_height, image_resize_width)
 
-detect_image = 'data/test2.jpg'
+detect_image = '0259.jpg'
 image = caffe.io.load_image(detect_image)
 
 transformed_image = transformer.preprocess('data', image)

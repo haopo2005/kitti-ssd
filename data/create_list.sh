@@ -6,7 +6,7 @@
 # and run create_list.sh just inside the dir
 dataset="KITTI"
 
-data_root_dir=$HOME/data/${dataset}/
+data_root_dir=$HOME/share/project/kitti-ssd/data/${dataset}/
 current_dir=`pwd`
 echo "current_dir: "${current_dir}
 dst_all_tmp=${current_dir}"/all_tmp.txt"

@@ -1,16 +1,16 @@
 cur_dir=$(cd $( dirname ${BASH_SOURCE[0]} ) && pwd )
-root_dir=/home/chenqi-didi/Documents/work/caffe
+root_dir=/home/jst/share/project/ssd/caffe
 
 cd $root_dir
 
 # we changed data root dir and data_ser_name and label_type
 redo=1
 # this is your root data dir
-data_root_dir="$HOME/data/KITTI"
+data_root_dir="$HOME/share/project/kitti-ssd/data/KITTI"
 # using this access your caffe/data/dataset dir, trainval.txt and test.txt in it
 dataset_name="KITTI"
 # your map file
-mapfile="$root_dir/data/$dataset_name/labelmap_kitti.prototxt"
+mapfile="$HOME/share/project/kitti-ssd/data/$dataset_name/labelmap_kitti.prototxt"
 anno_type="detection"
 label_type="txt"
 db="lmdb"
@@ -26,5 +26,5 @@ then
 fi
 for subset in test trainval
 do
-  python $root_dir/scripts/create_annoset.py --anno-type=$anno_type --label-type=$label_type --label-map-file=$mapfile --min-dim=$min_dim --max-dim=$max_dim --resize-width=$width --resize-height=$height --check-label $extra_cmd $data_root_dir $root_dir/data/$dataset_name/$subset.txt $data_root_dir/$db/$dataset_name"_"$subset"_"$db examples/$dataset_name
+  python $root_dir/scripts/create_annoset.py --anno-type=$anno_type --label-type=$label_type --label-map-file=$mapfile --min-dim=$min_dim --max-dim=$max_dim --resize-width=$width --resize-height=$height --check-label $extra_cmd $data_root_dir $HOME/share/project/kitti-ssd/data/$dataset_name/$subset.txt $data_root_dir/$db/$dataset_name"_"$subset"_"$db examples/$dataset_name
 done
